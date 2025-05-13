@@ -1,0 +1,31 @@
+{
+  "name": "hr-acuity-jquery-ckeditor-interview",
+  "version": "1.0.0",
+  "description": "HR Acuity Technical Interview - jQuery to React CKEditor Migration Challenge",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "author": "HR Acuity <jwarner@hracuity.com>",
+  "homepage": "https://www.hracuity.com",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@types/jquery": "^3.5.29",
+    "sass": "^1.72.0",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.7"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1",
+    "reflect-metadata": "^0.2.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.0"
+}
