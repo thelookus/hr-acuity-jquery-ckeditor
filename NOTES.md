@@ -1,36 +1,30 @@
 # CKEditor 5 Integration Notes
 
-## Integration Approach
-- Replaced Bootstrap WYSIWYG with CKEditor 5 using React integration
-- Maintained existing jQuery structure for post listing and data handling
-- Integrated React component only for the editor functionality
-- Preserved localStorage data flow and post structure
+## What I Did
+I replaced the old Bootstrap editor with CKEditor 5, keeping the existing jQuery stuff intact. The editor now has all the basic formatting tools we need, and it works with our current data flow.
 
-## Technical Decisions
-- Used CKEditor 5 Classic build for its simplicity and essential features
-- Implemented React component wrapper to isolate editor functionality
-- Kept jQuery for existing functionality to minimize changes
-- Used GPL license for development purposes
+## Why I Made These Choices
+- Went with CKEditor 5 Classic because it's simple and has everything we need
+- Made a React wrapper for the editor to keep things clean
+- Stuck with jQuery for the rest of the app to avoid breaking things
+- Using GPL license for now, but we might need to change this later
 
-## Technical Tradeoffs
-- Chose GPL license over commercial license for development, may need to be changed for production
-- Used Classic build instead of custom build to speed up implementation, but with less flexibility
-- Maintained localStorage for data persistence instead of implementing a new storage solution
+## Tradeoffs I Considered
+- GPL license is fine for dev but might need a commercial one later
+- Classic build is quick to set up but less flexible than a custom one
+- Keeping localStorage for now since it works well enough
 
 ## Testing
-- Implemented basic test suite using Vitest
-- Added test for content persistence and retrieval
-- Mocked localStorage for reliable testing
-- Focused on core functionality: saving and retrieving posts with formatted content
+Added a basic test to make sure posts save and load correctly. It checks that the editor content (including formatting) stays intact when we save and reload.
 
-## Setup Instructions
-1. Install dependencies: `pnpm i`
-2. Start development server: `pnpm start`
-3. Access application at http://localhost:5173/
-4. Run tests: `pnpm test`
+## How to Run It
+1. `pnpm i` to get the dependencies
+2. `pnpm start` to run it locally
+3. Open http://localhost:5173/
+4. `pnpm test` to run the tests
 
-## Additional Notes
-- Editor includes basic formatting (bold, italic, underline) and list support
-- Error handling implemented for better user experience
-- Content persistence maintained through existing localStorage mechanism
-- No changes required to existing build process
+## Other Stuff
+- Editor has bold, italic, underline, and lists
+- Added some error handling to make it more user-friendly
+- Everything still saves to localStorage like before
+- No changes needed to the build setup

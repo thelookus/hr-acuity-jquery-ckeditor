@@ -2,7 +2,7 @@ import $ from 'jquery';
 import { Helper } from '../../util/common';
 import { BlogService } from './BlogService';
 import { createRoot } from 'react-dom/client';
-import CKEditorWrapper from './components/CKEditorWrapper';
+import { CKEditorWrapper } from './components/CKEditorWrapper';
 
 export class BlogComponent {
     posts: Array<BlogPost>;
@@ -22,7 +22,7 @@ export class BlogComponent {
             this.renderPosts();
         } catch (error) {
             console.error('Error loading posts:', error);
-            $('#blog-posts').html('<p class="error">Error loading posts. Please try again.</p>');
+            $('#blog-posts').html('<p class="error">Couldn\'t load posts. Check your browser console for details.</p>');
         }
     }
 
@@ -116,7 +116,7 @@ export class BlogComponent {
                 this.loadPosts();
             } catch (error) {
                 console.error('Error saving post:', error);
-                alert('Error saving post. Please try again.');
+                alert('Post didn\'t save. Make sure you filled out all fields and try again.');
             }
         });
     }
@@ -129,7 +129,7 @@ export class BlogComponent {
             this.editorRoot = createRoot(container);
             this.editorRoot.render(
                 <CKEditorWrapper
-                    value={this.editorContent}
+                    initialData={this.editorContent}
                     onChange={(data: string) => {
                         this.editorContent = data;
                     }}
@@ -137,7 +137,7 @@ export class BlogComponent {
             );
         } catch (error) {
             console.error('Error mounting editor:', error);
-            container.innerHTML = '<p class="error">Error loading editor. Please try again.</p>';
+            container.innerHTML = '<p class="error">Editor failed to load. Try refreshing the page.</p>';
         }
     }
 
