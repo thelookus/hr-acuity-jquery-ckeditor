@@ -4,11 +4,12 @@
         "outDir": "./dist/",
         "sourceMap": true,
         "noImplicitAny": true,
-        "module": "node16",
         "target": "es5",
         "allowJs": true,
         "jsx": "react-jsx",
         "lib": ["dom", "esnext"],
-        "moduleResolution": "Node16"
+        "module": "esnext",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true
     }
 }
