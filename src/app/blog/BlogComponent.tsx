@@ -7,6 +7,7 @@ import CKEditorWrapper from './components/CKEditorWrapper';
 export class BlogComponent {
     posts: Array<BlogPost>;
     private editorContent: string = '';
+    private editorRoot: any = null;
 
     // dependency injection
     constructor(private blogService: BlogService) {
@@ -16,8 +17,13 @@ export class BlogComponent {
     }
 
     loadPosts(): void {
-        this.posts = this.blogService.getPosts();
-        this.renderPosts();
+        try {
+            this.posts = this.blogService.getPosts();
+            this.renderPosts();
+        } catch (error) {
+            console.error('Error loading posts:', error);
+            $('#blog-posts').html('<p class="error">Error loading posts. Please try again.</p>');
+        }
     }
 
     renderPosts(): void {
@@ -86,20 +92,32 @@ export class BlogComponent {
         $(document).on('submit', '#new-post-form form', (e: JQuery.Event): void => {
             e.preventDefault();
 
-            const newPost = {
-                title: $('#post-title').val() as string,
-                author: $('#post-author').val() as string,
-                content: this.editorContent
-            };
+            try {
+                const title = $('#post-title').val() as string;
+                const author = $('#post-author').val() as string;
 
-            this.blogService.savePost(newPost);
+                if (!title || !author || !this.editorContent) {
+                    throw new Error('All fields are required');
+                }
 
-            ($('#new-post-form form')[0] as HTMLFormElement).reset();
-            this.editorContent = '';
-            $('#new-post-form').hide();
-            this.unmountEditor();
+                const newPost = {
+                    title,
+                    author,
+                    content: this.editorContent
+                };
 
-            this.loadPosts();
+                this.blogService.savePost(newPost);
+
+                ($('#new-post-form form')[0] as HTMLFormElement).reset();
+                this.editorContent = '';
+                $('#new-post-form').hide();
+                this.unmountEditor();
+
+                this.loadPosts();
+            } catch (error) {
+                console.error('Error saving post:', error);
+                alert('Error saving post. Please try again.');
+            }
         });
     }
 
@@ -107,25 +125,30 @@ export class BlogComponent {
         const container = document.getElementById('editor-container');
         if (!container) return;
 
-        const root = createRoot(container);
-        root.render(
-            <CKEditorWrapper
-                value={this.editorContent}
-                onChange={(data: string) => {
-                    this.editorContent = data;
-                }}
-            />
-        );
+        try {
+            this.editorRoot = createRoot(container);
+            this.editorRoot.render(
+                <CKEditorWrapper
+                    value={this.editorContent}
+                    onChange={(data: string) => {
+                        this.editorContent = data;
+                    }}
+                />
+            );
+        } catch (error) {
+            console.error('Error mounting editor:', error);
+            container.innerHTML = '<p class="error">Error loading editor. Please try again.</p>';
+        }
     }
 
     private unmountEditor() {
-        const container = document.getElementById('editor-container');
-        if (!container) return;
-
-        const root = (container as any)._reactRoot;
-        if (root) {
-            root.unmount();
-            (container as any)._reactRoot = null;
+        if (this.editorRoot) {
+            try {
+                this.editorRoot.unmount();
+                this.editorRoot = null;
+            } catch (error) {
+                console.error('Error unmounting editor:', error);
+            }
         }
     }
 }

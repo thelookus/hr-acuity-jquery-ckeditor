@@ -14,7 +14,20 @@ const CKEditorWrapper: React.FC<CKEditorWrapperProps> = ({ value, onChange }) =>
       editor={ClassicEditor}
       data={value}
       config={{
-        licenseKey: 'GPL'
+        licenseKey: 'GPL',
+        toolbar: {
+          items: [
+            'bold',
+            'italic',
+            'underline',
+            '|',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'undo',
+            'redo'
+          ]
+        }
       }}
       onChange={(_event, editor) => {
         const data = editor.getData();
